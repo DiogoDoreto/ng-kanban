@@ -1,6 +1,8 @@
+import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Column } from './Column';
+import { tap } from 'rxjs/operators';
 
 const COLUMNS: Column[] = [
   {
@@ -22,7 +24,29 @@ const COLUMNS: Column[] = [
 
 @Injectable()
 export class ColumnService {
+  private ColumnsSubject = new BehaviorSubject<Column[]>(COLUMNS);
+
   getColumns(): Observable<Column[]> {
-    return of(COLUMNS);
+    return this.ColumnsSubject.asObservable();
+  }
+
+  reorderCard(column: Column, previousIndex: number, currentIndex: number) {
+    moveItemInArray(column.cards, previousIndex, currentIndex);
+    this.ColumnsSubject.next(COLUMNS);
+  }
+
+  moveCard(
+    source: Column,
+    destination: Column,
+    previousIndex: number,
+    currentIndex: number,
+  ) {
+    transferArrayItem(
+      source.cards,
+      destination.cards,
+      previousIndex,
+      currentIndex,
+    );
+    this.ColumnsSubject.next(COLUMNS);
   }
 }

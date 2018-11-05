@@ -1,6 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { CardService } from '../card.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { Card } from '../Card';
 
 @Component({
@@ -10,17 +8,12 @@ import { Card } from '../Card';
 })
 export class CardComponent implements OnInit {
   @Input()
-  cardId: number;
-
   card: Card;
 
-  constructor(private cardService: CardService) {}
+  @Input()
+  isDragging = false;
 
-  ngOnInit() {
-    this.getCard();
-  }
+  constructor() {}
 
-  getCard() {
-    this.cardService.getCard(this.cardId).subscribe(card => (this.card = card));
-  }
+  ngOnInit() {}
 }

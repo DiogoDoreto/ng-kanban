@@ -1,1 +1,6 @@
-<app-column *ngFor="let column of columns" [column]="column"></app-column>
+<app-column *ngFor="let column of columns" [id]="getColumnNodeId(column)" [column]="column" cdkDropList
+  [cdkDropListData]="column" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="columns.map(getColumnNodeId)">
+  <app-card *ngFor="let card of getCardsOfColumn(column)" [card]="card" cdkDrag>
+    <app-card *cdkDragPreview [card]="card" isDragging="true"></app-card>
+  </app-card>
+</app-column>
