@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Column } from '../Column';
 
 @Component({
   selector: 'app-column',
@@ -6,11 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./column.component.less'],
 })
 export class ColumnComponent implements OnInit {
-  column = {
-    id: 1,
-    title: 'Backlog',
-    cards: [1, 2, 3],
-  };
+  @Input()
+  column: Column;
 
   constructor() {}
 

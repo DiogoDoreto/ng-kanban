@@ -1,4 +1,2 @@
-<div class="column">
-  <div class="title">{{column.title}}</div>
-  <app-card *ngFor="let card of column.cards"></app-card>
-</div>
+<div class="title">{{column.title}}</div>
+<app-card *ngFor="let cardId of column.cards" [cardId]="cardId"></app-card>

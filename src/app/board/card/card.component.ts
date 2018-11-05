@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { CardService } from '../card.service';
+import { Card } from '../Card';
 
 @Component({
   selector: 'app-card',
@@ -6,12 +9,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card.component.less'],
 })
 export class CardComponent implements OnInit {
-  card = {
-    id: 1,
-    title: 'Buy Chocolate',
-  };
+  @Input()
+  cardId: number;
 
-  constructor() {}
+  card: Card;
 
-  ngOnInit() {}
+  constructor(private cardService: CardService) {}
+
+  ngOnInit() {
+    this.getCard();
+  }
+
+  getCard() {
+    this.cardService.getCard(this.cardId).subscribe(card => (this.card = card));
+  }
 }
