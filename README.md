@@ -1,5 +1,7 @@
 # NgKanban
 
+[![Build Status](https://travis-ci.com/DiogoDoreto/ng-kanban.svg?branch=master)](https://travis-ci.com/DiogoDoreto/ng-kanban)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.4.
 
 ## Development server
