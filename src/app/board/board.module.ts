@@ -7,7 +7,7 @@ import {
   MatCardModule,
   MatInputModule,
 } from '@angular/material';
-import { AddColumnComponent } from './add-column/add-column.component';
+import { AddItemComponent } from './add-item/add-item.component';
 import { BoardComponent } from './board.component';
 import { CardService } from './card.service';
 import { CardComponent } from './card/card.component';
@@ -19,7 +19,7 @@ import { ColumnComponent } from './column/column.component';
     CardComponent,
     BoardComponent,
     ColumnComponent,
-    AddColumnComponent,
+    AddItemComponent,
   ],
   exports: [BoardComponent],
   imports: [

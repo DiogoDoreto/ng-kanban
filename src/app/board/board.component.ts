@@ -71,4 +71,10 @@ export class BoardComponent implements OnInit {
   addColumn(title: string) {
     this.columnService.add(title);
   }
+
+  addCard(title: string, columnId: number) {
+    this.cardService.add(title).subscribe(newCard => {
+      this.columnService.addCardToColumn(newCard.id, columnId);
+    });
+  }
 }

@@ -9,11 +9,11 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-add-column',
-  templateUrl: './add-column.component.html',
-  styleUrls: ['./add-column.component.less'],
+  selector: 'app-add-item',
+  templateUrl: './add-item.component.html',
+  styleUrls: ['./add-item.component.less'],
 })
-export class AddColumnComponent implements AfterViewChecked {
+export class AddItemComponent implements AfterViewChecked {
   @Output()
   submit = new EventEmitter<string>();
 

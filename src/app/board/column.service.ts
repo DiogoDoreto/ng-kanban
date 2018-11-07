@@ -60,4 +60,9 @@ export class ColumnService {
     COLUMNS.push(newColumn);
     this.ColumnsSubject.next(COLUMNS);
   }
+
+  addCardToColumn(cardId: number, columnId: number) {
+    const col = COLUMNS.find(c => c.id === columnId);
+    col.cards.push(cardId);
+  }
 }

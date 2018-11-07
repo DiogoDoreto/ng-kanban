@@ -20,4 +20,14 @@ export class CardService {
       map(cards => cards.find(card => card.id === id)),
     );
   }
+
+  add(title: string): Observable<Card> {
+    const id = 1 + Math.max(...CARDS.map(c => c.id));
+    const newCard = {
+      id,
+      title,
+    };
+    CARDS.push(newCard);
+    return of(newCard);
+  }
 }

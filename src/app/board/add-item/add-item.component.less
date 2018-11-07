@@ -1,14 +1,17 @@
 :host {
-  width: 250px;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
 }
 
 button,
 mat-form-field {
+  box-sizing: border-box;
   width: 100%;
 }
 
 :host(.isAdding) {
   background: #eee;
-  padding: 16px;
+  padding: 16px 16px 0 16px;
   border-radius: 4px;
 }

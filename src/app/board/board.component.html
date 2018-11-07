@@ -3,5 +3,6 @@
   <app-card *ngFor="let card of getCardsOfColumn(column)" [card]="card" cdkDrag>
     <app-card *cdkDragPreview [card]="card" isDragging="true"></app-card>
   </app-card>
+  <app-add-item (submit)="addCard($event, column.id)"></app-add-item>
 </app-column>
-<app-add-column (submit)="addColumn($event)"></app-add-column>
+<app-add-item (submit)="addColumn($event)" class="add-column"></app-add-item>
