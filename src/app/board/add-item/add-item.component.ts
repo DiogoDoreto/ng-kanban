@@ -2,10 +2,11 @@ import {
   AfterViewChecked,
   Component,
   ElementRef,
-  HostBinding,
-  ViewChild,
-  Output,
   EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+  ViewChild,
 } from '@angular/core';
 
 @Component({
@@ -14,6 +15,9 @@ import {
   styleUrls: ['./add-item.component.less'],
 })
 export class AddItemComponent implements AfterViewChecked {
+  @Input()
+  itemType: string;
+
   @Output()
   submit = new EventEmitter<string>();
 
