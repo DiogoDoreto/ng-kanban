@@ -1,0 +1,5 @@
+<button mat-stroked-button color="primary" (click)="isAdding = true" *ngIf="!isAdding">+ add column</button>
+<mat-form-field *ngIf="isAdding">
+  <input #title matInput autofocus type="text" placeholder="New column title" (blur)="reset()" (keydown)="inputKey($event)"
+    [(ngModel)]="titleValue">
+</mat-form-field>

@@ -1,10 +1,17 @@
 :host {
-  display: block;
+  box-sizing: border-box;
+  padding: 16px;
   height: 100vh;
+  width: auto;
+  display: flex;
+  align-items: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
-app-column {
-  float: left;
+app-column,
+app-add-column {
+  flex: 0 0 auto;
 }
 
 app-card {

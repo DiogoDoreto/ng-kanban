@@ -49,4 +49,15 @@ export class ColumnService {
     );
     this.ColumnsSubject.next(COLUMNS);
   }
+
+  add(title: string) {
+    const id = 1 + Math.max(...COLUMNS.map(c => c.id));
+    const newColumn = {
+      id,
+      title,
+      cards: [],
+    };
+    COLUMNS.push(newColumn);
+    this.ColumnsSubject.next(COLUMNS);
+  }
 }

@@ -67,4 +67,8 @@ export class BoardComponent implements OnInit {
       );
     }
   }
+
+  addColumn(title: string) {
+    this.columnService.add(title);
+  }
 }
