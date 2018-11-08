@@ -17,6 +17,12 @@ export function reducer(state = initialState, action: CardActions): State {
         };
       }, {});
     }
+    case CardActionTypes.AddCard: {
+      return {
+        ...state,
+        [action.payload.id]: action.payload,
+      };
+    }
     default:
       return state;
   }
