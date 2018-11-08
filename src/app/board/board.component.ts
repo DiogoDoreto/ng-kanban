@@ -12,8 +12,7 @@ import { ColumnService } from './column.service';
   styleUrls: ['./board.component.less'],
 })
 export class BoardComponent implements OnInit {
-  columns: Column[] = [];
-  cards: Card[] = [];
+  columns$: Observable<Column[]>;
 
   @HostBinding('class')
   private hostClass = 'mat-app-background';
@@ -25,13 +24,13 @@ export class BoardComponent implements OnInit {
 
   ngOnInit() {
     this.populate();
+
+    this.columns$ = this.columnService.getColumns();
   }
 
   populate() {
     this.cardService.load();
-    this.columnService.getColumns().subscribe(columns => {
-      this.columns = columns;
-    });
+    this.columnService.load();
   }
 
   getColumnNodeId(column: Column): string {
@@ -42,21 +41,13 @@ export class BoardComponent implements OnInit {
     return combineLatest(column.cards.map(id => this.cardService.getCard(id)));
   }
 
-  drop(event: CdkDragDrop<Column>) {
-    if (event.previousContainer === event.container) {
-      this.columnService.reorderCard(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    } else {
-      this.columnService.moveCard(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
+  drop(event: CdkDragDrop<Column, Card>) {
+    this.columnService.moveCard(
+      event.previousContainer.data.id,
+      event.container.data.id,
+      event.item.data.id,
+      event.currentIndex,
+    );
   }
 
   addColumn(title: string) {

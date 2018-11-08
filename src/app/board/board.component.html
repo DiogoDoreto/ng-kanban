@@ -1,6 +1,6 @@
-<app-column *ngFor="let column of columns" [id]="getColumnNodeId(column)" [column]="column" cdkDropList
-  [cdkDropListData]="column" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="columns.map(getColumnNodeId)">
-  <app-card *ngFor="let card of getCardsOfColumn(column) | async" [card]="card" cdkDrag>
+<app-column *ngFor="let column of columns$ | async as columns" [id]="getColumnNodeId(column)" [column]="column"
+  cdkDropList [cdkDropListData]="column" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="columns.map(getColumnNodeId)">
+  <app-card *ngFor="let card of getCardsOfColumn(column) | async" [card]="card" cdkDrag [cdkDragData]="card">
     <app-card *cdkDragPreview [card]="card" isDragging="true"></app-card>
   </app-card>
   <app-add-item (submit)="addCard($event, column.id)" itemType="card"></app-add-item>
