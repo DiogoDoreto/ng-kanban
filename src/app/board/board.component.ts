@@ -5,9 +5,9 @@ import {
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { Card } from './Card';
+import { Card } from './card.model';
 import { CardService } from './card.service';
-import { Column } from './Column';
+import { Column } from './column.model';
 import { ColumnService } from './column.service';
 
 @Component({

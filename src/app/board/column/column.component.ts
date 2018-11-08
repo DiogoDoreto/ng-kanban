@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
-import { Column } from '../Column';
+import { Column } from '../column.model';
 
 @Component({
   selector: 'app-column',

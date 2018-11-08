@@ -1,7 +1,7 @@
 import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Column } from './Column';
+import { Column } from './column.model';
 import { tap } from 'rxjs/operators';
 
 const COLUMNS: Column[] = [
