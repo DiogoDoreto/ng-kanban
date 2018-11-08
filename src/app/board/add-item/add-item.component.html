@@ -1,5 +1,5 @@
 <button mat-stroked-button color="primary" (click)="isAdding = true" *ngIf="!isAdding">+ add {{itemType}}</button>
 <mat-form-field *ngIf="isAdding">
-  <input #title matInput autofocus type="text" placeholder="New {{itemType}} title" (blur)="reset()" (keydown)="inputKey($event)"
-    [(ngModel)]="titleValue">
+  <input #title matInput autofocus type="text" placeholder="New {{itemType}} title" (blur)="reset()" (keydown.enter)="trySubmit()"
+    (keydown.esc)="reset()" [(ngModel)]="titleValue">
 </mat-form-field>

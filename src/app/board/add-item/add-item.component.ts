@@ -45,16 +45,11 @@ export class AddItemComponent implements AfterViewChecked {
     this.titleValue = '';
   }
 
-  inputKey(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      const value = this.titleValue.trim();
-      if (value) {
-        this.submit.emit(value);
-      }
-      this.reset();
+  trySubmit() {
+    const value = this.titleValue.trim();
+    if (value) {
+      this.submit.emit(value);
     }
-    if (event.key === 'Escape') {
-      this.reset();
-    }
+    this.reset();
   }
 }
