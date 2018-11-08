@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Card } from './card.model';
+import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { getCard, State } from '../reducers';
+import { LoadCards } from './actions';
+import { Card } from './card.model';
 
 const CARDS: Card[] = [
   { id: 1, title: 'Learn Angular' },
@@ -11,14 +13,14 @@ const CARDS: Card[] = [
 
 @Injectable()
 export class CardService {
-  getCards(): Observable<Card[]> {
-    return of(CARDS);
+  constructor(private store: Store<State>) {}
+
+  load() {
+    this.store.dispatch(new LoadCards(CARDS));
   }
 
   getCard(id: number): Observable<Card> {
-    return this.getCards().pipe(
-      map(cards => cards.find(card => card.id === id)),
-    );
+    return this.store.pipe(select(getCard, id));
   }
 
   add(title: string): Observable<Card> {

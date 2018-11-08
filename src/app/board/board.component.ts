@@ -1,10 +1,6 @@
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { combineLatest } from 'rxjs';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
 import { Card } from './card.model';
 import { CardService } from './card.service';
 import { Column } from './column.model';
@@ -32,12 +28,9 @@ export class BoardComponent implements OnInit {
   }
 
   populate() {
-    combineLatest(
-      this.columnService.getColumns(),
-      this.cardService.getCards(),
-    ).subscribe(([columns, cards]) => {
+    this.cardService.load();
+    this.columnService.getColumns().subscribe(columns => {
       this.columns = columns;
-      this.cards = cards;
     });
   }
 
@@ -45,10 +38,8 @@ export class BoardComponent implements OnInit {
     return `column-${column.id}`;
   }
 
-  getCardsOfColumn(column: Column): Card[] {
-    return column.cards
-      .map(id => this.cards.find(card => card.id === id))
-      .filter(Boolean);
+  getCardsOfColumn(column: Column): Observable<Card[]> {
+    return combineLatest(column.cards.map(id => this.cardService.getCard(id)));
   }
 
   drop(event: CdkDragDrop<Column>) {
