@@ -8,7 +8,12 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-add-item',
@@ -16,11 +21,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./add-item.component.less'],
 })
 export class AddItemComponent implements AfterViewChecked {
-  @Input()
-  itemType: string;
+  @Input() itemType: string;
 
-  @Output()
-  submit = new EventEmitter<string>();
+  @Output() submit = new EventEmitter<string>();
 
   @HostBinding('class.isAdding')
   get isAdding() {
@@ -31,8 +34,9 @@ export class AddItemComponent implements AfterViewChecked {
     this.form.patchValue({ isAdding: Boolean(value) });
   }
 
-  @ViewChild('title')
-  titleInput: ElementRef;
+  @ViewChild('title') titleInput: ElementRef;
+
+  @ViewChild(FormGroupDirective) formRef: FormGroupDirective;
 
   form: FormGroup;
 
@@ -43,7 +47,7 @@ export class AddItemComponent implements AfterViewChecked {
   buildForm() {
     this.form = this.fb.group({
       isAdding: false,
-      title: '',
+      title: ['', Validators.required],
     });
   }
 
@@ -59,10 +63,15 @@ export class AddItemComponent implements AfterViewChecked {
   }
 
   reset() {
-    this.form.reset();
+    this.formRef.resetForm();
   }
 
-  trySubmit() {
+  onSubmit(event: Event) {
+    event.stopPropagation();
+    if (this.form.invalid) {
+      return;
+    }
+
     const value = this.form.get('title').value.trim();
     if (value) {
       this.submit.emit(value);
