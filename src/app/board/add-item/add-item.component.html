@@ -1,5 +1,23 @@
-<button mat-stroked-button color="primary" (click)="isAdding = true" *ngIf="!isAdding">+ add {{itemType}}</button>
-<mat-form-field *ngIf="isAdding">
-  <input #title matInput autofocus type="text" placeholder="New {{itemType}} title" (blur)="reset()" (keydown.enter)="trySubmit()"
-    (keydown.esc)="reset()" [(ngModel)]="titleValue">
-</mat-form-field>
+<form [formGroup]="form" (ngSubmit)="trySubmit()">
+  <button
+    mat-stroked-button
+    color="primary"
+    type="button"
+    (click)="isAdding = true"
+    *ngIf="!isAdding"
+  >
+    + add {{ itemType }}
+  </button>
+  <mat-form-field *ngIf="isAdding">
+    <input
+      #title
+      matInput
+      autofocus
+      type="text"
+      placeholder="New {{itemType}} title"
+      (blur)="reset()"
+      (keydown.esc)="reset()"
+      formControlName="title"
+    />
+  </mat-form-field>
+</form>

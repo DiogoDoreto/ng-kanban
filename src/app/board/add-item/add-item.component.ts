@@ -8,6 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-item',
@@ -22,12 +23,29 @@ export class AddItemComponent implements AfterViewChecked {
   submit = new EventEmitter<string>();
 
   @HostBinding('class.isAdding')
-  isAdding = false;
+  get isAdding() {
+    return this.form.get('isAdding').value as boolean;
+  }
+
+  set isAdding(value) {
+    this.form.patchValue({ isAdding: Boolean(value) });
+  }
 
   @ViewChild('title')
   titleInput: ElementRef;
 
-  titleValue = '';
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.buildForm();
+  }
+
+  buildForm() {
+    this.form = this.fb.group({
+      isAdding: false,
+      title: '',
+    });
+  }
 
   ngAfterViewChecked() {
     if (
@@ -41,12 +59,11 @@ export class AddItemComponent implements AfterViewChecked {
   }
 
   reset() {
-    this.isAdding = false;
-    this.titleValue = '';
+    this.form.reset();
   }
 
   trySubmit() {
-    const value = this.titleValue.trim();
+    const value = this.form.get('title').value.trim();
     if (value) {
       this.submit.emit(value);
     }
