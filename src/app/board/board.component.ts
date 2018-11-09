@@ -59,4 +59,8 @@ export class BoardComponent implements OnInit {
       this.columnService.addCardToColumn(newCard.id, columnId);
     });
   }
+
+  updateCardTitle(id, newTitle) {
+    this.cardService.updateTitle(id, newTitle);
+  }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { getCard, State } from '../reducers';
-import { AddCard, LoadCards } from './actions';
+import { AddCard, LoadCards, UpdateTitle } from './actions';
 import { Card } from './card.model';
 
 const CARDS: Card[] = [
@@ -33,5 +33,9 @@ export class CardService {
     };
     this.store.dispatch(new AddCard(newCard));
     return of(newCard);
+  }
+
+  updateTitle(id: number, title: string) {
+    this.store.dispatch(new UpdateTitle({ id, title }));
   }
 }

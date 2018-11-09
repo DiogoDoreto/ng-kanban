@@ -1,1 +1,16 @@
-<mat-card [class.mat-elevation-z8]="isDragging">{{card.title}}</mat-card>
+<mat-card [class.mat-elevation-z8]="isDragging" (dblclick)="showForm()">
+  <span *ngIf="!isRenaming">{{ card.title }}</span>
+  <mat-form-field *ngIf="isRenaming">
+    <mat-label>New card title</mat-label>
+    <textarea
+      #titleInput
+      matInput
+      cdkTextareaAutosize
+      required
+      [formControl]="title"
+      (keydown.esc)="cancelEdit()"
+      (keydown.enter)="submit()"
+      (blur)="submit()"
+    ></textarea>
+  </mat-form-field>
+</mat-card>

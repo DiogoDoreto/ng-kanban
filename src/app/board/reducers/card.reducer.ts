@@ -23,6 +23,16 @@ export function reducer(state = initialState, action: CardActions): State {
         [action.payload.id]: action.payload,
       };
     }
+    case CardActionTypes.UpdateTitle: {
+      const card = state[action.payload.id];
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...card,
+          title: action.payload.title,
+        },
+      };
+    }
     default:
       return state;
   }

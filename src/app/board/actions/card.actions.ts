@@ -4,6 +4,7 @@ import { Card } from '../card.model';
 export enum CardActionTypes {
   LoadCards = '[Card] Load Cards',
   AddCard = '[Card] Add Card',
+  UpdateTitle = '[Card] Update Title',
 }
 
 export class LoadCards implements Action {
@@ -18,4 +19,10 @@ export class AddCard implements Action {
   constructor(public payload: Card) {}
 }
 
-export type CardActions = LoadCards | AddCard;
+export class UpdateTitle implements Action {
+  readonly type = CardActionTypes.UpdateTitle;
+
+  constructor(public payload: { id: number; title: string }) {}
+}
+
+export type CardActions = LoadCards | AddCard | UpdateTitle;
