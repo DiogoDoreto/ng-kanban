@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { merge, Observable, of } from 'rxjs';
+import {
+  delay,
+  filter,
+  ignoreElements,
+  share,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { getColumns, State } from '../reducers';
 import { AddColumn, InsertCard, LoadColumns, RemoveCard } from './actions';
 import { Column } from './column.model';
@@ -30,13 +38,19 @@ let nextId = 4;
 export class ColumnService {
   constructor(private store: Store<State>) {}
 
-  getColumns(): Observable<Column[]> {
-    return this.store.pipe(select(getColumns));
-  }
+  requestColumns$ = this.store.pipe(
+    select(getColumns),
+    filter(cols => !cols || !cols.length),
+    switchMap(() => of(COLUMNS)), // TODO replace by API call
+    delay(500), // simulate network
+    tap(cols => this.store.dispatch(new LoadColumns(cols))),
+    share(),
+  );
 
-  load() {
-    this.store.dispatch(new LoadColumns(COLUMNS));
-  }
+  columns$ = merge(
+    this.requestColumns$.pipe(ignoreElements()),
+    this.store.pipe(select(getColumns)),
+  );
 
   moveCard(
     fromColumnId: number,

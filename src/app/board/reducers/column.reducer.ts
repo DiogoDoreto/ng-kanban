@@ -63,4 +63,4 @@ export function reducer(state = initialState, action: ColumnActions): State {
 }
 
 // TODO missing support for proper order. Will be fixed with support for multiple boards
-export const getColumns = (state: State) => Object.values(state);
+export const getColumns = (state: State) => Object.values(state) as Column[];
