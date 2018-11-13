@@ -63,6 +63,7 @@ export class AddItemComponent implements AfterViewChecked {
   }
 
   reset() {
+    // see https://github.com/angular/material2/issues/4190#issuecomment-305222426
     this.formRef.resetForm();
   }
 
