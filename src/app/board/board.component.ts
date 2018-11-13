@@ -12,7 +12,7 @@ import { ColumnService } from './column.service';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.less'],
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent {
   columns$: Observable<Column[]>;
 
   @HostBinding('class')
@@ -23,14 +23,6 @@ export class BoardComponent implements OnInit {
     private cardService: CardService,
   ) {
     this.columns$ = this.columnService.columns$;
-  }
-
-  ngOnInit() {
-    this.populate();
-  }
-
-  populate() {
-    this.cardService.load();
   }
 
   getColumnNodeId(column: Column): string {

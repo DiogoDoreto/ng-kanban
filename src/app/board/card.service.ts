@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { getCard, State } from '../reducers';
+import { merge, Observable, of } from 'rxjs';
+import {
+  delay,
+  filter,
+  ignoreElements,
+  share,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+import { getCard, getCards, State } from '../reducers';
 import { AddCard, LoadCards, UpdateTitle } from './actions';
 import { Card } from './card.model';
 
@@ -18,12 +26,20 @@ let nextId = 4;
 export class CardService {
   constructor(private store: Store<State>) {}
 
-  load() {
-    this.store.dispatch(new LoadCards(CARDS));
-  }
+  requestCards$ = this.store.pipe(
+    select(getCards),
+    filter(cards => !cards || !cards.length),
+    switchMap(() => of(CARDS)), // TODO replace by API call
+    delay(500), // simulate network
+    tap(cards => this.store.dispatch(new LoadCards(cards))),
+    share(),
+  );
 
   getCard(id: number): Observable<Card> {
-    return this.store.pipe(select(getCard, id));
+    return merge(
+      this.requestCards$.pipe(ignoreElements()),
+      this.store.pipe(select(getCard, id)),
+    );
   }
 
   add(title: string): Observable<Card> {

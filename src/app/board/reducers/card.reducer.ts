@@ -38,4 +38,6 @@ export function reducer(state = initialState, action: CardActions): State {
   }
 }
 
+export const getCards = (state: State) => Object.values(state) as Card[];
+
 export const getCard = (state: State, id: number) => state[id];

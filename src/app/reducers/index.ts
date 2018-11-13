@@ -26,10 +26,21 @@ export const getCardState = createFeatureSelector<State, fromCard.State>(
   'card',
 );
 
-export const getCard = createSelector(getCardState, fromCard.getCard);
+export const getCard = createSelector(
+  getCardState,
+  fromCard.getCard,
+);
+
+export const getCards = createSelector(
+  getCardState,
+  fromCard.getCards,
+);
 
 export const getColumnState = createFeatureSelector<State, fromColumn.State>(
   'column',
 );
 
-export const getColumns = createSelector(getColumnState, fromColumn.getColumns);
+export const getColumns = createSelector(
+  getColumnState,
+  fromColumn.getColumns,
+);
