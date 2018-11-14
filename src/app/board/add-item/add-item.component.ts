@@ -1,7 +1,5 @@
 import {
-  AfterViewChecked,
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
   Input,
@@ -20,7 +18,7 @@ import {
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.less'],
 })
-export class AddItemComponent implements AfterViewChecked {
+export class AddItemComponent {
   @Input() itemType: string;
 
   @Output() submit = new EventEmitter<string>();
@@ -33,8 +31,6 @@ export class AddItemComponent implements AfterViewChecked {
   set isAdding(value) {
     this.form.patchValue({ isAdding: Boolean(value) });
   }
-
-  @ViewChild('title') titleInput: ElementRef;
 
   @ViewChild(FormGroupDirective) formRef: FormGroupDirective;
 
@@ -49,17 +45,6 @@ export class AddItemComponent implements AfterViewChecked {
       isAdding: false,
       title: ['', Validators.required],
     });
-  }
-
-  ngAfterViewChecked() {
-    if (
-      this.isAdding &&
-      document.activeElement !== this.titleInput.nativeElement
-    ) {
-      setTimeout(() => {
-        this.titleInput.nativeElement.focus();
-      }, 0);
-    }
   }
 
   reset() {

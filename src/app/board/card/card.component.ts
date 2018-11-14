@@ -25,14 +25,9 @@ export class CardComponent {
 
   title = new FormControl('', Validators.required);
 
-  @ViewChild('titleInput') titleInput: ElementRef<HTMLTextAreaElement>;
-
   showForm() {
     this.isRenaming = true;
     this.title.setValue(this.card.title);
-    setTimeout(() => {
-      this.titleInput.nativeElement.focus();
-    }, 0);
   }
 
   submit() {

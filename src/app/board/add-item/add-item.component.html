@@ -10,9 +10,8 @@
   </button>
   <mat-form-field *ngIf="isAdding">
     <input
-      #title
       matInput
-      autofocus
+      appFocusOnShow
       required
       type="text"
       placeholder="New {{itemType}} title"
