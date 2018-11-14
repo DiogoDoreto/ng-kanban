@@ -7,6 +7,7 @@ import {
   MatCardModule,
   MatInputModule,
 } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AddItemComponent } from './add-item/add-item.component';
 import { BoardComponent } from './board.component';
@@ -15,6 +16,13 @@ import { CardComponent } from './card/card.component';
 import { ColumnService } from './column.service';
 import { ColumnComponent } from './column/column.component';
 
+const routes: Routes = [
+  {
+    path: 'board/:id',
+    component: BoardComponent,
+  },
+];
+
 @NgModule({
   declarations: [
     CardComponent,
@@ -22,9 +30,9 @@ import { ColumnComponent } from './column/column.component';
     ColumnComponent,
     AddItemComponent,
   ],
-  exports: [BoardComponent],
   imports: [
     CommonModule,
+    RouterModule.forChild(routes),
     SharedModule,
     MatCardModule,
     DragDropModule,
