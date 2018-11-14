@@ -25,7 +25,9 @@ export class AddItemComponent {
 
   @HostBinding('class.isAdding')
   get isAdding() {
-    return this.form.get('isAdding').value as boolean;
+    const control = this.form.get('isAdding');
+    const value = control && control.value;
+    return Boolean(value);
   }
 
   set isAdding(value) {
@@ -58,9 +60,10 @@ export class AddItemComponent {
       return;
     }
 
-    const value = this.form.get('title').value.trim();
-    if (value) {
-      this.submit.emit(value);
+    const control = this.form.get('title');
+    const title: string = control && control.value && control.value.trim();
+    if (title) {
+      this.submit.emit(title);
     }
     this.reset();
   }
