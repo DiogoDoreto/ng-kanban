@@ -1,14 +1,9 @@
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatCardModule,
-  MatInputModule,
-} from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
+import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { AddItemComponent } from './add-item/add-item.component';
 import { BoardComponent } from './board.component';
@@ -34,13 +29,10 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
     SharedModule,
-    MatCardModule,
-    DragDropModule,
-    MatButtonModule,
-    MatInputModule,
     ReactiveFormsModule,
+    MaterialModule,
+    RouterModule.forChild(routes),
     EffectsModule.forFeature([ColumnEffects]),
   ],
   providers: [ColumnService, CardService],
