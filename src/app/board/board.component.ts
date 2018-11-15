@@ -1,7 +1,10 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as fromApp from '../reducers';
+import * as boardActions from './actions';
 import { Card } from './card.model';
 import { CardService } from './card.service';
 import { Column } from './column.model';
@@ -21,6 +24,7 @@ export class BoardComponent {
   constructor(
     private columnService: ColumnService,
     private cardService: CardService,
+    private store: Store<fromApp.State>,
   ) {
     this.columns$ = this.columnService.columns$;
   }
@@ -45,7 +49,7 @@ export class BoardComponent {
   }
 
   addColumn(title: string) {
-    this.columnService.add(title);
+    this.store.dispatch(new boardActions.AddColumn({ title }));
   }
 
   addCard(title: string, columnId: number) {

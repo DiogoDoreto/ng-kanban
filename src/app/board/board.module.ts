@@ -8,6 +8,7 @@ import {
   MatInputModule,
 } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from '../shared/shared.module';
 import { AddItemComponent } from './add-item/add-item.component';
 import { BoardComponent } from './board.component';
@@ -15,6 +16,7 @@ import { CardService } from './card.service';
 import { CardComponent } from './card/card.component';
 import { ColumnService } from './column.service';
 import { ColumnComponent } from './column/column.component';
+import { ColumnEffects } from './effects/column.effects';
 
 const routes: Routes = [
   {
@@ -39,6 +41,7 @@ const routes: Routes = [
     MatButtonModule,
     MatInputModule,
     ReactiveFormsModule,
+    EffectsModule.forFeature([ColumnEffects]),
   ],
   providers: [ColumnService, CardService],
 })
