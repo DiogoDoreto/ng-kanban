@@ -11,6 +11,7 @@ import { BoardComponent } from './board.component';
 import { CardComponent } from './card/card.component';
 import { ColumnComponent } from './column/column.component';
 import { ColumnEffects } from './effects/column.effects';
+import { GetCardsFromColumnPipe } from './get-cards-from-column.pipe';
 import { reducers } from './reducers';
 import { CardService } from './services/card.service';
 import { ColumnService } from './services/column.service';
@@ -28,6 +29,7 @@ const routes: Routes = [
     BoardComponent,
     ColumnComponent,
     AddItemComponent,
+    GetCardsFromColumnPipe,
   ],
   imports: [
     CommonModule,

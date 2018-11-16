@@ -34,6 +34,11 @@ export class CardService {
     share(),
   );
 
+  cards$ = merge(
+    this.requestCards$.pipe(ignoreElements()),
+    this.store.pipe(select(getCards)),
+  );
+
   getCard(id: number): Observable<Card> {
     return merge(
       this.requestCards$.pipe(ignoreElements()),

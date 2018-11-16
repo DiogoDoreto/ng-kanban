@@ -1,8 +1,7 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import * as fromApp from '../reducers';
 import * as boardActions from './actions';
 import { Card } from './card.model';
@@ -33,12 +32,6 @@ export class BoardComponent implements OnInit {
 
   getColumnNodeId(column: Column): string {
     return `column-${column.id}`;
-  }
-
-  getCardsOfColumn(column: Column): Observable<Card[]> {
-    return combineLatest(
-      column.cards.map(id => this.cardService.getCard(id)),
-    ).pipe(map(cards => cards.filter(Boolean)));
   }
 
   drop(event: CdkDragDrop<Column, Card>) {

@@ -8,7 +8,7 @@
   [cdkDropListConnectedTo]="columns.map(getColumnNodeId)"
 >
   <app-card
-    *ngFor="let card of (getCardsOfColumn(column) | async)"
+    *ngFor="let card of (column | getCardsFromColumn | async)"
     [card]="card"
     cdkDrag
     [cdkDragData]="card"
