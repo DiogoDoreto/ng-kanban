@@ -1,5 +1,5 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { ColumnService } from './services/column.service';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.less'],
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit {
   columns$: Observable<Column[]>;
 
   @HostBinding('class')
@@ -25,7 +25,9 @@ export class BoardComponent {
     private columnService: ColumnService,
     private cardService: CardService,
     private store: Store<fromApp.State>,
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.columns$ = this.columnService.columns$;
   }
 
