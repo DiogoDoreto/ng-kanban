@@ -60,8 +60,7 @@ export class ColumnService {
 
   requestColumns$ = this.colsFromBoard$.pipe(
     filter(cols => !cols || !cols.length),
-    switchMap(() => of(COLUMNS)), // TODO replace by API call
-    delay(500), // simulate network
+    switchMap(() => of(COLUMNS).pipe(delay(500))), // TODO replace by API call
     tap(cols => this.store.dispatch(new LoadColumns(cols))),
     share(),
   );

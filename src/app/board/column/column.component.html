@@ -1,2 +1,6 @@
-<div class="title">{{column.title}}</div>
-<ng-content></ng-content>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ column.title }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content><ng-content></ng-content></mat-card-content>
+</mat-card>

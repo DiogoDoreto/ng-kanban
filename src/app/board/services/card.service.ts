@@ -29,8 +29,7 @@ export class CardService {
   requestCards$ = this.store.pipe(
     select(getCards),
     filter(cards => !cards || !cards.length),
-    switchMap(() => of(CARDS)), // TODO replace by API call
-    delay(500), // simulate network
+    switchMap(() => of(CARDS).pipe(delay(500))), // TODO replace by API call
     tap(cards => this.store.dispatch(new LoadCards(cards))),
     share(),
   );
