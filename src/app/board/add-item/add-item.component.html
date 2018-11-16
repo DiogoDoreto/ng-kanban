@@ -1,5 +1,24 @@
-<button mat-stroked-button color="primary" (click)="isAdding = true" *ngIf="!isAdding">+ add {{itemType}}</button>
-<mat-form-field *ngIf="isAdding">
-  <input #title matInput autofocus type="text" placeholder="New {{itemType}} title" (blur)="reset()" (keydown.enter)="trySubmit()"
-    (keydown.esc)="reset()" [(ngModel)]="titleValue">
-</mat-form-field>
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+  <button
+    mat-stroked-button
+    color="primary"
+    type="button"
+    (click)="isAdding = true"
+    *ngIf="!isAdding"
+  >
+    + add {{ itemType }}
+  </button>
+  <mat-form-field *ngIf="isAdding">
+    <input
+      matInput
+      appFocusOnShow
+      required
+      type="text"
+      placeholder="New {{itemType}} title"
+      (blur)="reset()"
+      (keydown.esc)="reset()"
+      formControlName="title"
+    />
+    <mat-error *ngIf="form.invalid">You must type a value</mat-error>
+  </mat-form-field>
+</form>

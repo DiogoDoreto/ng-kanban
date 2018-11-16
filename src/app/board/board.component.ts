@@ -1,10 +1,7 @@
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { combineLatest } from 'rxjs';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Card } from './card.model';
 import { CardService } from './card.service';
 import { Column } from './column.model';
@@ -15,9 +12,8 @@ import { ColumnService } from './column.service';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.less'],
 })
-export class BoardComponent implements OnInit {
-  columns: Column[] = [];
-  cards: Card[] = [];
+export class BoardComponent {
+  columns$: Observable<Column[]>;
 
   @HostBinding('class')
   private hostClass = 'mat-app-background';
@@ -25,47 +21,27 @@ export class BoardComponent implements OnInit {
   constructor(
     private columnService: ColumnService,
     private cardService: CardService,
-  ) {}
-
-  ngOnInit() {
-    this.populate();
-  }
-
-  populate() {
-    combineLatest(
-      this.columnService.getColumns(),
-      this.cardService.getCards(),
-    ).subscribe(([columns, cards]) => {
-      this.columns = columns;
-      this.cards = cards;
-    });
+  ) {
+    this.columns$ = this.columnService.columns$;
   }
 
   getColumnNodeId(column: Column): string {
     return `column-${column.id}`;
   }
 
-  getCardsOfColumn(column: Column): Card[] {
-    return column.cards
-      .map(id => this.cards.find(card => card.id === id))
-      .filter(Boolean);
+  getCardsOfColumn(column: Column): Observable<Card[]> {
+    return combineLatest(
+      column.cards.map(id => this.cardService.getCard(id)),
+    ).pipe(map(cards => cards.filter(Boolean)));
   }
 
-  drop(event: CdkDragDrop<Column>) {
-    if (event.previousContainer === event.container) {
-      this.columnService.reorderCard(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    } else {
-      this.columnService.moveCard(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
+  drop(event: CdkDragDrop<Column, Card>) {
+    this.columnService.moveCard(
+      event.previousContainer.data.id,
+      event.container.data.id,
+      event.item.data.id,
+      event.currentIndex,
+    );
   }
 
   addColumn(title: string) {
@@ -76,5 +52,9 @@ export class BoardComponent implements OnInit {
     this.cardService.add(title).subscribe(newCard => {
       this.columnService.addCardToColumn(newCard.id, columnId);
     });
+  }
+
+  updateCardTitle(id, newTitle) {
+    this.cardService.updateTitle(id, newTitle);
   }
 }

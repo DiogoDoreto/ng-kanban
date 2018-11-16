@@ -1,4 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Card } from '../card.model';
 
 @Component({
@@ -6,14 +14,30 @@ import { Card } from '../card.model';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.less'],
 })
-export class CardComponent implements OnInit {
-  @Input()
-  card: Card;
+export class CardComponent {
+  @Input() card: Card;
 
-  @Input()
-  isDragging = false;
+  @Input() isDragging = false;
 
-  constructor() {}
+  @Output() changeTitle = new EventEmitter<string>();
 
-  ngOnInit() {}
+  isRenaming = false;
+
+  title = new FormControl('', Validators.required);
+
+  showForm() {
+    this.isRenaming = true;
+    this.title.setValue(this.card.title);
+  }
+
+  submit() {
+    if (this.title.valid) {
+      this.changeTitle.emit(this.title.value);
+    }
+    this.cancelEdit();
+  }
+
+  cancelEdit() {
+    this.isRenaming = false;
+  }
 }

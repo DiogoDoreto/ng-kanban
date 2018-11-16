@@ -137,5 +137,8 @@
       }
     }
   },
-  "defaultProject": "ng-kanban"
+  "defaultProject": "ng-kanban",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
