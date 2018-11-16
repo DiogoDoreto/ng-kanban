@@ -10,8 +10,8 @@ import {
   tap,
 } from 'rxjs/operators';
 import { getCard, getCards, State } from '../reducers';
-import { AddCard, LoadCards, UpdateTitle } from './actions';
-import { Card } from './card.model';
+import { AddCard, LoadCards, UpdateTitle } from '../actions';
+import { Card } from '../card.model';
 
 const CARDS: Card[] = [
   { id: 1, title: 'Learn Angular' },

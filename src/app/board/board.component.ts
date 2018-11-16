@@ -6,9 +6,9 @@ import { map } from 'rxjs/operators';
 import * as fromApp from '../reducers';
 import * as boardActions from './actions';
 import { Card } from './card.model';
-import { CardService } from './card.service';
 import { Column } from './column.model';
-import { ColumnService } from './column.service';
+import { CardService } from './services/card.service';
+import { ColumnService } from './services/column.service';
 
 @Component({
   selector: 'app-board',

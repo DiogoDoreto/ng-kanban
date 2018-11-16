@@ -20,10 +20,10 @@ import * as fromRouter from './reducers/router-state.serializer';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     BoardModule,
     DashboardModule,
-    BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router',

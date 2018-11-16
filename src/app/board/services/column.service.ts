@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { merge, of } from 'rxjs';
 import {
   delay,
   filter,
   ignoreElements,
+  map,
   share,
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { getColumns, State } from '../reducers';
-import { InsertCard, LoadColumns, RemoveCard } from './actions';
-import { Column } from './column.model';
+import * as fromApp from '../../reducers';
+import { InsertCard, LoadColumns, RemoveCard } from '../actions';
+import { Column } from '../column.model';
+import * as fromBoard from '../reducers';
 
 const COLUMNS: Column[] = [
   {
@@ -46,10 +48,17 @@ const COLUMNS: Column[] = [
 
 @Injectable()
 export class ColumnService {
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<fromApp.State & fromBoard.State>) {}
 
-  requestColumns$ = this.store.pipe(
-    select(getColumns),
+  private colsFromBoard$ = this.store.pipe(
+    map(state => {
+      const params = fromApp.getRouterParams(state);
+      const columns = fromBoard.getColumns(state, Number(params.id));
+      return columns;
+    }),
+  );
+
+  requestColumns$ = this.colsFromBoard$.pipe(
     filter(cols => !cols || !cols.length),
     switchMap(() => of(COLUMNS)), // TODO replace by API call
     delay(500), // simulate network
@@ -59,7 +68,7 @@ export class ColumnService {
 
   columns$ = merge(
     this.requestColumns$.pipe(ignoreElements()),
-    this.store.pipe(select(getColumns)),
+    this.colsFromBoard$,
   );
 
   moveCard(

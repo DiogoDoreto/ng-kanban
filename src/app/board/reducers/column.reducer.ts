@@ -63,8 +63,9 @@ export function reducer(state = initialState, action: ColumnActions): State {
 }
 
 export const getColumns = (state: State, boardId: number) => {
-  const columns: Column[] = Object.values(state);
-  return columns
-    .filter(col => col.boardId === boardId)
-    .sort((a, b) => a.position - b.position);
+  let columns: Column[] = Object.values(state || {});
+  if (boardId != null) {
+    columns = columns.filter(col => col.boardId === boardId);
+  }
+  return columns.sort((a, b) => a.position - b.position);
 };
