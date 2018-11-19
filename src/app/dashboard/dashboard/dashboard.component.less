@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  padding: 20px;
+}
+
+mat-card {
+  width: 250px;
+  margin: 16px;
+}
+
+.boards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.board div[mat-card-image] {
+  background: #d1c4e9;
+  padding: 12px 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-evenly;
+
+  div {
+    background: white;
+    height: 50px;
+    width: 90px;
+    border-radius: 4px;
+  }
+
+  div + div {
+    height: 35px;
+  }
+}
+
+mat-divider {
+  margin: 16px 0;
+  flex: 0 0 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}

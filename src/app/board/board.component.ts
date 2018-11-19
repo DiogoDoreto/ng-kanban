@@ -17,9 +17,6 @@ import { ColumnService } from './services/column.service';
 export class BoardComponent implements OnInit {
   columns$: Observable<Column[]>;
 
-  @HostBinding('class')
-  private hostClass = 'mat-app-background';
-
   constructor(
     private columnService: ColumnService,
     private cardService: CardService,

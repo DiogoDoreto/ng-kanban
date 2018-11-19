@@ -1,1 +1,31 @@
-<a routerLink="/board/1">Go to board</a>
+<div class="boards">
+  <mat-card *ngFor="let board of (boards$ | async)" class="board">
+    <mat-card-header>
+      <mat-card-title>{{ board.title }}</mat-card-title>
+    </mat-card-header>
+    <div mat-card-image>
+      <div></div>
+      <div></div>
+    </div>
+    <mat-card-actions>
+      <button mat-button routerLink="/board/{{board.id}}">Go to board</button>
+      <button mat-button color="warn" (click)="deleteBoard(board)">
+        Delete board
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-divider></mat-divider>
+
+  <form (submit)="addBoard(newBoard.value); $event.preventDefault()">
+    <mat-card class="new-board">
+      <mat-form-field>
+        <mat-label>New board</mat-label>
+        <input matInput #newBoard />
+      </mat-form-field>
+      <mat-card-actions>
+        <button mat-button>Add board and navigate</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
