@@ -1,38 +1,34 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as fromApp from '../reducers';
+import * as boardActions from './actions';
 import { Card } from './card.model';
-import { CardService } from './card.service';
 import { Column } from './column.model';
-import { ColumnService } from './column.service';
+import { CardService } from './services/card.service';
+import { ColumnService } from './services/column.service';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.less'],
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit {
   columns$: Observable<Column[]>;
-
-  @HostBinding('class')
-  private hostClass = 'mat-app-background';
 
   constructor(
     private columnService: ColumnService,
     private cardService: CardService,
-  ) {
+    private store: Store<fromApp.State>,
+  ) {}
+
+  ngOnInit() {
     this.columns$ = this.columnService.columns$;
   }
 
   getColumnNodeId(column: Column): string {
     return `column-${column.id}`;
-  }
-
-  getCardsOfColumn(column: Column): Observable<Card[]> {
-    return combineLatest(
-      column.cards.map(id => this.cardService.getCard(id)),
-    ).pipe(map(cards => cards.filter(Boolean)));
   }
 
   drop(event: CdkDragDrop<Column, Card>) {
@@ -45,7 +41,7 @@ export class BoardComponent {
   }
 
   addColumn(title: string) {
-    this.columnService.add(title);
+    this.store.dispatch(new boardActions.AddColumn({ title }));
   }
 
   addCard(title: string, columnId: number) {

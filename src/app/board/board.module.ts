@@ -1,19 +1,27 @@
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatCardModule,
-  MatInputModule,
-} from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { AddItemComponent } from './add-item/add-item.component';
 import { BoardComponent } from './board.component';
-import { CardService } from './card.service';
 import { CardComponent } from './card/card.component';
-import { ColumnService } from './column.service';
 import { ColumnComponent } from './column/column.component';
+import { ColumnEffects } from './effects/column.effects';
+import { GetCardsFromColumnPipe } from './get-cards-from-column.pipe';
+import { reducers } from './reducers';
+import { CardService } from './services/card.service';
+import { ColumnService } from './services/column.service';
+
+const routes: Routes = [
+  {
+    path: 'board/:id',
+    component: BoardComponent,
+  },
+];
 
 @NgModule({
   declarations: [
@@ -21,16 +29,17 @@ import { ColumnComponent } from './column/column.component';
     BoardComponent,
     ColumnComponent,
     AddItemComponent,
+    GetCardsFromColumnPipe,
   ],
-  exports: [BoardComponent],
   imports: [
     CommonModule,
     SharedModule,
-    MatCardModule,
-    DragDropModule,
-    MatButtonModule,
-    MatInputModule,
     ReactiveFormsModule,
+    MaterialModule,
+    RouterModule.forChild(routes),
+    StoreModule.forFeature('column', reducers.column),
+    StoreModule.forFeature('card', reducers.card),
+    EffectsModule.forFeature([ColumnEffects]),
   ],
   providers: [ColumnService, CardService],
 })

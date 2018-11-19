@@ -18,7 +18,7 @@ export function reducer(state = initialState, action: ColumnActions): State {
       }, {});
     }
 
-    case ColumnActionTypes.AddColumn: {
+    case ColumnActionTypes.AddColumnSuccess: {
       return {
         ...state,
         [action.payload.id]: action.payload,
@@ -62,5 +62,10 @@ export function reducer(state = initialState, action: ColumnActions): State {
   }
 }
 
-// TODO missing support for proper order. Will be fixed with support for multiple boards
-export const getColumns = (state: State) => Object.values(state) as Column[];
+export const getColumns = (state: State, boardId: number) => {
+  let columns: Column[] = Object.values(state || {});
+  if (boardId != null) {
+    columns = columns.filter(col => col.boardId === boardId);
+  }
+  return columns.sort((a, b) => a.position - b.position);
+};

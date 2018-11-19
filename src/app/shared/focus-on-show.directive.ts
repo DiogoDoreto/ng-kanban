@@ -1,13 +1,15 @@
-import { Directive, ElementRef, NgZone } from '@angular/core';
+import { Directive, ElementRef, NgZone, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[appFocusOnShow]',
 })
-export class FocusOnShowDirective {
-  constructor(el: ElementRef, ngZone: NgZone) {
-    ngZone.runOutsideAngular(() => {
+export class FocusOnShowDirective implements OnInit {
+  constructor(private el: ElementRef, private ngZone: NgZone) {}
+
+  ngOnInit() {
+    this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        el.nativeElement.focus();
+        this.el.nativeElement.focus();
       }, 0);
     });
   }

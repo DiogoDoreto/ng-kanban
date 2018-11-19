@@ -10,8 +10,8 @@ import {
   tap,
 } from 'rxjs/operators';
 import { getCard, getCards, State } from '../reducers';
-import { AddCard, LoadCards, UpdateTitle } from './actions';
-import { Card } from './card.model';
+import { AddCard, LoadCards, UpdateTitle } from '../actions';
+import { Card } from '../card.model';
 
 const CARDS: Card[] = [
   { id: 1, title: 'Learn Angular' },
@@ -29,10 +29,14 @@ export class CardService {
   requestCards$ = this.store.pipe(
     select(getCards),
     filter(cards => !cards || !cards.length),
-    switchMap(() => of(CARDS)), // TODO replace by API call
-    delay(500), // simulate network
+    switchMap(() => of(CARDS).pipe(delay(500))), // TODO replace by API call
     tap(cards => this.store.dispatch(new LoadCards(cards))),
     share(),
+  );
+
+  cards$ = merge(
+    this.requestCards$.pipe(ignoreElements()),
+    this.store.pipe(select(getCards)),
   );
 
   getCard(id: number): Observable<Card> {

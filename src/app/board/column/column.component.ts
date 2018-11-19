@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Column } from '../column.model';
 
 @Component({
@@ -6,14 +6,7 @@ import { Column } from '../column.model';
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.less'],
 })
-export class ColumnComponent implements OnInit {
+export class ColumnComponent {
   @Input()
   column: Column;
-
-  @HostBinding('class')
-  private hostClass = 'mat-card';
-
-  constructor() {}
-
-  ngOnInit() {}
 }
