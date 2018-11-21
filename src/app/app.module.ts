@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
+import { NgModule, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
@@ -15,6 +16,8 @@ import { BoardModule } from './board/board.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { metaReducers, reducers } from './reducers';
 import * as fromRouter from './reducers/router-state.serializer';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +40,26 @@ import * as fromRouter from './reducers/router-state.serializer';
   providers: [
     { provide: RouterStateSerializer, useClass: fromRouter.Serializer },
   ],
-  bootstrap: [AppComponent],
+  // bootstrap: [AppComponent],
+  bootstrap: [],
+  entryComponents: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    private injector: Injector,
+    private router: Router,
+    private location: Location,
+  ) {}
+
+  ngDoBootstrap() {
+    const el = createCustomElement(AppComponent, {
+      injector: this.injector,
+    });
+
+    customElements.define('my-ng-kanban', el);
+
+    this.location.subscribe(data => this.router.navigateByUrl(data.url || ''));
+
+    this.router.navigateByUrl(this.location.path(true));
+  }
+}
